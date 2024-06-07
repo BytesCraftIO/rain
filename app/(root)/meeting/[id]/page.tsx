@@ -1,12 +1,14 @@
 'use client'
 
 import Player from '@/components/Player'
-import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+
 import useMediaStream from '@/hooks/useMediaStream'
 import usePeer from '@/hooks/usePeer'
 import usePlayer from '@/hooks/usePlayer'
 import { useSocket } from '@/providers/SocketProvider'
 import { cloneDeep } from 'lodash'
+import { MicOff, PhoneMissedIcon, VideoIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 type Props = {
@@ -20,6 +22,9 @@ type User = {
 }
 
 const Meeting = (props: Props) => {
+  const [muted, setMuted] = useState<boolean>(true)
+  const [video, setVideo] = useState<boolean>(true)
+
   const socket = useSocket()
   const { peer, myId } = usePeer(props.params.id)
   const { stream } = useMediaStream()
@@ -142,7 +147,7 @@ const Meeting = (props: Props) => {
 
   return (
     <main className="h-screen w-full">
-      <div className="">
+      <div className="h-[calc(100vh-100px)] border-2">
         {playerHighlighted && (
           <Player
             url={playerHighlighted.url}
@@ -166,18 +171,30 @@ const Meeting = (props: Props) => {
         })}
       </div>
 
-      <div className="absolute bottom-10 right-10 space-x-5">
-        <Button onClick={leaveRoom} className="right-4" variant="outline">
-          Leave Room
-        </Button>
-
-        <Button onClick={toggleAudio} className="right-16" variant="outline">
-          Toggle Audio
-        </Button>
-
-        <Button onClick={toggleVideo} className="" variant="outline">
-          Toggle Video
-        </Button>
+      <div className="h-16 flex items-center justify-center">
+        <ToggleGroup type="multiple" className="text-white">
+          <ToggleGroupItem
+            value="toggleAudio"
+            onClick={() => {
+              setMuted(!muted)
+              toggleAudio()
+            }}
+          >
+            <MicOff size={20} />
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="toggleVideo"
+            onClick={() => {
+              setVideo(!video)
+              toggleVideo()
+            }}
+          >
+            <VideoIcon size={20} />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="leaveRoom" onClick={leaveRoom}>
+            <PhoneMissedIcon size={20} />
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
     </main>
   )

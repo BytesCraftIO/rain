@@ -1,4 +1,4 @@
-import { Mic, MicOff, UserSquare2 } from 'lucide-react'
+import { Mic, MicOff, UserCircleIcon } from 'lucide-react'
 import ReactPlayer from 'react-player'
 
 type Props = {
@@ -10,26 +10,33 @@ type Props = {
 
 const Player = (props: Props) => {
   return (
-    <div>
-      {props.playing ? (
-        <ReactPlayer
-          url={props.url}
-          muted={props.muted}
-          playing={props.playing}
-        />
-      ) : (
-        <div>
-          <UserSquare2 size={props.isActive ? 400 : 150} />
-        </div>
-      )}
-
+    <div className="m-4 rounded-xl text-white bg-dark-1 w-fit">
       {!props.isActive ? (
         props.muted ? (
-          <MicOff size={20} />
+          <div className="absolute m-6 bg-white text-black p-2 rounded-full shadow-lg">
+            <MicOff size={20} />
+          </div>
         ) : (
-          <Mic size={20} />
+          <div>
+            <Mic size={20} />
+          </div>
         )
       ) : undefined}
+      {props.playing ? (
+        <div className="w-[300px] h-[300px] flex items-center justify-center rounded-lg">
+          <ReactPlayer
+            url={props.url}
+            muted={props.muted}
+            playing={props.playing}
+            width="300px"
+            height="300px"
+          />
+        </div>
+      ) : (
+        <div className="w-[300px] h-[300px] flex items-center justify-center rounded-lg">
+          <UserCircleIcon size={100} />
+        </div>
+      )}
     </div>
   )
 }
