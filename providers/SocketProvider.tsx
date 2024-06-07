@@ -17,13 +17,10 @@ type Props = {
 
 export const useSocket = () => {
   const socket = useContext(SocketContext)
-  // if (!socket) {
-  //   throw new Error('useSocket must be used within a SocketProvider')
-  // }
   return socket
 }
 
-const SocketProvider = (props: Props) => {
+const SocketProvider = (props: Props): JSX.Element => {
   const [socket, setSocket] = useState<Socket | null>(null)
   useEffect(() => {
     const connection = io()

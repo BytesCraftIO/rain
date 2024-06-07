@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 const useMediaStream = () => {
-  const [state, setState] = useState(null)
-  const isStreamSet = useRef(false)
+  const [streamState, setStreamState] = useState<MediaStream | null>(null)
+  const isStreamSet = useRef<Boolean>(false)
 
   useEffect(() => {
     if (isStreamSet.current) return
@@ -14,7 +14,7 @@ const useMediaStream = () => {
           video: true,
         })
         console.log('setting your stream')
-        setState(stream)
+        setStreamState(stream)
       } catch (e) {
         console.log('Error in media navigator', e)
       }
@@ -22,7 +22,7 @@ const useMediaStream = () => {
   }, [])
 
   return {
-    stream: state,
+    stream: streamState,
   }
 }
 

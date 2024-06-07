@@ -1,6 +1,7 @@
 import { useSocket } from '@/providers/SocketProvider'
 import { cloneDeep } from 'lodash'
 import { useRouter } from 'next/navigation'
+import Peer from 'peerjs'
 import { useState } from 'react'
 
 interface Player {
@@ -13,7 +14,7 @@ interface Players {
   [key: string]: Player
 }
 
-const usePlayer = (myId: string, roomId: string, peer: any) => {
+const usePlayer = (myId: string, roomId: string, peer: Peer | null) => {
   const socket = useSocket()
   const [players, setPlayers] = useState<Players>({})
   const router = useRouter()

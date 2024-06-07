@@ -1,11 +1,12 @@
 import { useSocket } from '@/providers/SocketProvider'
+import Peer from 'peerjs'
 
-const { useState, useEffect, useRef } = require('react')
+import { useEffect, useRef, useState } from 'react'
 
 const usePeer = (roomId: string) => {
   const socket = useSocket()
-  const [peer, setPeer] = useState(null)
-  const [myId, setMyId] = useState('')
+  const [peer, setPeer] = useState<Peer | null>(null)
+  const [myId, setMyId] = useState<string>('')
   const isPeerSet = useRef(false)
 
   useEffect(() => {

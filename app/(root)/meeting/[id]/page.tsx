@@ -15,11 +15,15 @@ type Props = {
   }
 }
 
+type User = {
+  [key: string]: any
+}
+
 const Meeting = (props: Props) => {
   const socket = useSocket()
   const { peer, myId } = usePeer(props.params.id)
   const { stream } = useMediaStream()
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
   const {
     players,
     setPlayers,
@@ -37,12 +41,12 @@ const Meeting = (props: Props) => {
 
       const call = peer.call(newUser, stream)
 
-      call.on('stream', (incomingStream: string) => {
+      call.on('stream', (incomingStreamUrl: any) => {
         console.log(`incoming stream from ${newUser}`)
         setPlayers((prev) => ({
           ...prev,
           [newUser]: {
-            url: incomingStream,
+            url: incomingStreamUrl,
             muted: true,
             playing: true,
           },
@@ -81,7 +85,7 @@ const Meeting = (props: Props) => {
       })
     }
 
-    const handleUserLeave = (userId: string) => {
+    const handleUserLeave = (userId: any) => {
       console.log(`user ${userId} is leaving the room`)
       users[userId]?.close()
       const playersCopy = cloneDeep(players)
@@ -104,7 +108,7 @@ const Meeting = (props: Props) => {
       const { peer: callerId } = call
       call.answer(stream)
 
-      call.on('stream', (incomingStream) => {
+      call.on('stream', (incomingStream: any) => {
         console.log(`incoming stream from ${callerId}`)
         setPlayers((prev) => ({
           ...prev,
@@ -126,7 +130,7 @@ const Meeting = (props: Props) => {
   useEffect(() => {
     if (!stream || !myId) return
     console.log(`setting my stream ${myId}`)
-    setPlayers((prev) => ({
+    setPlayers((prev: any) => ({
       ...prev,
       [myId]: {
         url: stream,
