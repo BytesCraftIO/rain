@@ -1,14 +1,13 @@
 'use client'
 
+import Player from '@/components/Player'
 import { Button } from '@/components/ui/button'
 import useMediaStream from '@/hooks/useMediaStream'
 import usePeer from '@/hooks/usePeer'
 import usePlayer from '@/hooks/usePlayer'
 import { useSocket } from '@/providers/SocketProvider'
-import { useUser } from '@clerk/nextjs'
 import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
-import ReactPlayer from 'react-player'
 
 type Props = {
   params: {
@@ -17,12 +16,6 @@ type Props = {
 }
 
 const Meeting = (props: Props) => {
-  const { user, isLoaded } = useUser()
-  const [isSetupComplete, setIsSetupComplete] = useState(false)
-  // const { call, isCallLoading } = useGetCallById(props.params.id)
-
-  // if (!isLoaded || isCallLoading) return <Loader />
-
   const socket = useSocket()
   const { peer, myId } = usePeer(props.params.id)
   const { stream } = useMediaStream()
@@ -145,28 +138,25 @@ const Meeting = (props: Props) => {
 
   return (
     <main className="h-screen w-full">
-      <div>
+      <div className="">
         {playerHighlighted && (
-          <ReactPlayer
+          <Player
             url={playerHighlighted.url}
-            playing={playerHighlighted.playing}
             muted={playerHighlighted.muted}
-            width="300px"
-            height="300px"
+            playing={playerHighlighted.playing}
+            isActive
           />
         )}
 
         {Object.keys(nonHighlightedPlayers).map((playerId) => {
           const { url, muted, playing } = nonHighlightedPlayers[playerId]
           return (
-            <ReactPlayer
+            <Player
               key={playerId}
               url={url}
-              playing={playing}
               muted={muted}
+              playing={playing}
               isActive={false}
-              width="300px"
-              height="300px"
             />
           )
         })}
