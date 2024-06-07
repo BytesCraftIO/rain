@@ -16,11 +16,11 @@ const Player = (props: Props) => {
           url={props.url}
           muted={props.muted}
           playing={props.playing}
-          width="200px"
-          height="200px"
         />
       ) : (
-        <UserSquare2 size={props.isActive ? 400 : 150} />
+        <div>
+          <UserSquare2 size={props.isActive ? 400 : 150} />
+        </div>
       )}
 
       {!props.isActive ? (
