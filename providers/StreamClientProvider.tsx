@@ -25,7 +25,7 @@ const StreamClientProvider = (props: Props) => {
       apiKey,
       user: {
         id: user.id,
-        name: user?.username || user?.id,
+        name: user?.fullName || user?.firstName || user?.id,
         image: user?.imageUrl,
       },
       tokenProvider,
