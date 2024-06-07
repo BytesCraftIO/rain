@@ -12,7 +12,11 @@ import { useToast } from './ui/use-toast'
 const MeetingTypeList = () => {
   const router = useRouter()
   const [meetingState, setMeetingState] = useState<
-    'isScheduledMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
+    | 'isScheduledMeeting'
+    | 'isJoiningMeeting'
+    | 'isInstantMeeting'
+    | 'isPeerToPeer'
+    | undefined
   >(undefined)
 
   const [values, setValues] = useState({
@@ -68,6 +72,13 @@ const MeetingTypeList = () => {
     }
   }
 
+  const [roomId, setRoomId] = useState<string | null>(null)
+  const startNewMeeting = async () => {
+    const roomId = crypto.randomUUID()
+    setRoomId(roomId)
+    router.push(`/meeting/${roomId}`)
+  }
+
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
       <HomeCard
@@ -105,6 +116,24 @@ const MeetingTypeList = () => {
         onClick={() => {
           setMeetingState('isJoiningMeeting')
         }}
+      />
+
+      <HomeCard
+        title="Peer to Peer"
+        description="Start a new meeting"
+        extraClass="bg-orange-500"
+        icon={<PlusIcon size={36} />}
+        onClick={() => {
+          setMeetingState('isPeerToPeer')
+        }}
+      />
+
+      <MeetingModal
+        isOpen={meetingState === 'isPeerToPeer'}
+        onClose={() => setMeetingState(undefined)}
+        title="Schedule Peer-to-Peer Meeting"
+        buttonText="Schedule Meeting"
+        handleClick={startNewMeeting}
       />
 
       <MeetingModal

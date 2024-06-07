@@ -6,6 +6,7 @@ const Home = () => {
 
   const date = format(now, 'dd/MM/yyyy')
   const time = format(now, 'hh:mm a')
+
   return (
     <section className="flex size-full flex-col gap-10 text-white">
       <div className="h-[300px] w-full rounded-[20px] bg-dark-1 border-white border">

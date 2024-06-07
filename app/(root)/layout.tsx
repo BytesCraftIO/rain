@@ -1,4 +1,4 @@
-import StreamClientProvider from '@/providers/StreamClientProvider'
+import SocketProvider from '@/providers/SocketProvider'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 const RootLayout = (props: Props) => {
   return (
     <main>
-      <StreamClientProvider>{props.children}</StreamClientProvider>
+      <SocketProvider>{props.children}</SocketProvider>
     </main>
   )
 }
